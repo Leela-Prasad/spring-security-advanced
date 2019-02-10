@@ -2,6 +2,8 @@
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.virtualpairprogrammers.domain.Action;
 
 /**
@@ -9,6 +11,7 @@ import com.virtualpairprogrammers.domain.Action;
  *
  * @author Richard Chesterwood
  */
+@PreAuthorize("isAuthenticated()")
 public interface DiaryManagementService 
 {
 	/**
@@ -19,5 +22,7 @@ public interface DiaryManagementService
 	/**
 	 * Gets all actions for a particular user that have not yet been complete
 	 */
+	//Here this method will be executed only when the login user requests.
+	@PreAuthorize("hasRole('ROLE_CRM_USER') and principal.username == #requiredUser")
 	public List<Action> getAllIncompleteActions(String requiredUser);
 }

@@ -40,7 +40,8 @@ public class SimpleClientTest {
 			for(Customer customer : customers ) {
 				System.out.println(customer);
 			}
-			//diaryService.getAllIncompleteActions("adsf");
+			
+			diaryService.getAllIncompleteActions("rac");
 		}
 		finally
 		{

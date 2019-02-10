@@ -3,6 +3,8 @@ package com.virtualpairprogrammers.services.customers;
 import java.util.List;
 
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.virtualpairprogrammers.dataaccess.RecordNotFoundException;
 import com.virtualpairprogrammers.domain.Call;
@@ -15,13 +17,7 @@ import com.virtualpairprogrammers.domain.Customer;
  * Your job is to implement it. In the early sessions you will write a "Mock" to simulate 
  * a Customer Management Service. In later sessions you'll provide a Database backed implementation.
  */
-/*This @Secured Annotation provides business tier security 
-  and if users want to use this service then they should have 
-  role defined in this annotation. If you define @Secured annotation at 
-  the class level then it will be applied to all methods in the class, 
-  we can even define this annotation on a method as well.
-  */
-@Secured({ "ROLE_CRM_USER", "ROLE_CRM_ADMIN" })
+@PreAuthorize("hasRole('ROLE_CRM_USER')")
 public interface CustomerManagementService 
 {
 	/**
@@ -57,6 +53,8 @@ public interface CustomerManagementService
 	/**
 	 * Returns a complete list of the customers in the system.
 	 */
+	//This method results will be sent back to client only when list size is < 100
+	@PostAuthorize("returnObject.size() < 100")
 	public List<Customer> getAllCustomers();
 
 	/**
