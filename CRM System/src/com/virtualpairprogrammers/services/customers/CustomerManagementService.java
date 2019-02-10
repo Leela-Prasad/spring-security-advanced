@@ -2,6 +2,8 @@ package com.virtualpairprogrammers.services.customers;
 
 import java.util.List;
 
+import org.springframework.security.access.annotation.Secured;
+
 import com.virtualpairprogrammers.dataaccess.RecordNotFoundException;
 import com.virtualpairprogrammers.domain.Call;
 import com.virtualpairprogrammers.domain.Customer;
@@ -13,6 +15,13 @@ import com.virtualpairprogrammers.domain.Customer;
  * Your job is to implement it. In the early sessions you will write a "Mock" to simulate 
  * a Customer Management Service. In later sessions you'll provide a Database backed implementation.
  */
+/*This @Secured Annotation provides business tier security 
+  and if users want to use this service then they should have 
+  role defined in this annotation. If you define @Secured annotation at 
+  the class level then it will be applied to all methods in the class, 
+  we can even define this annotation on a method as well.
+  */
+@Secured({ "ROLE_CRM_USER", "ROLE_CRM_ADMIN" })
 public interface CustomerManagementService 
 {
 	/**

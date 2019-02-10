@@ -6,6 +6,10 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 
 import com.virtualpairprogrammers.domain.Action;
 import com.virtualpairprogrammers.domain.Call;
@@ -19,8 +23,13 @@ public class SimpleClientTest {
 
 	public static void main(String[] args) 
 	{
-		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application.xml");
+		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application-local.xml");
 
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("rac", "secret");
+		SecurityContext securityContext = new SecurityContextImpl();
+		securityContext.setAuthentication(authToken);
+		SecurityContextHolder.setContext(securityContext);
+		
 		try
 		{
 			CustomerManagementService customerService = container.getBean(CustomerManagementService.class);
@@ -31,6 +40,7 @@ public class SimpleClientTest {
 			for(Customer customer : customers ) {
 				System.out.println(customer);
 			}
+			//diaryService.getAllIncompleteActions("adsf");
 		}
 		finally
 		{

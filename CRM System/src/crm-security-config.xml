@@ -44,15 +44,6 @@
 	
  	<!--  This is a basic security set up, currently for the web-tier only -->
  	
-	<!--  For this course, we will use in memory authentication - see module 1 of Spring Security Course for details on JDBC providers -->
-	<authentication-manager>
-		<authentication-provider>
-			<user-service>			
-				<user name="rac" password="secret" authorities="ROLE_CRM_USER"/>
-			</user-service>
-		</authentication-provider>
-	</authentication-manager>
-	
 	<!--  a second manager for the electronic clients ONLY -->
 	<authentication-manager id="oauthTokenEndpointAuthManager">
 		<authentication-provider user-service-ref="clientDetailsUserService"/>	

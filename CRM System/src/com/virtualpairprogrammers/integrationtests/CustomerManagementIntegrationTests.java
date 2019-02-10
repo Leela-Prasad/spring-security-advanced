@@ -6,9 +6,14 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +35,14 @@ public class CustomerManagementIntegrationTests
 	
 	@Autowired
 	private CallHandlingService callsService;
+	
+	@Before
+	public void login() {
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("rac", "secret");
+		SecurityContext securityContext = new SecurityContextImpl();
+		securityContext.setAuthentication(authToken);
+		SecurityContextHolder.setContext(securityContext);
+	}
 	
 	@Test
 	public void testCreatingACustomerRecord()
