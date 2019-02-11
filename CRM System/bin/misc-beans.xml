@@ -33,6 +33,7 @@
 		</security:authentication-provider>
 	</security:authentication-manager> -->
 	
+	<!--  Authenticating using LDAP -->
 	<security:authentication-manager>
 		<security:ldap-authentication-provider user-search-filter="(uid={0})"
 												user-search-base="ou=Users"
@@ -42,12 +43,6 @@
 		</security:ldap-authentication-provider>
 	</security:authentication-manager>
 	
-		<!-- <security:ldap-authentication-provider user-search-filter="(uid={0})"
-												user-search-base="ou=Users"
-												group-search-filter="(uniqueMember={0})"
-												group-search-base="ou=Groups"
-												server-ref="ldapServer">
-		</security:ldap-authentication-provider> -->
-		
+	<!-- This is for Running LDAP Server in Embedded mode -->	
 	<security:ldap-server id="ldapServer" ldif="classpath:ldap-repository.ldif" root="dc=virtualpairprogrammers,dc=com" />
 </beans>
