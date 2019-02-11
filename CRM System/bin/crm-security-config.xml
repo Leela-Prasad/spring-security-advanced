@@ -86,7 +86,7 @@
 					authentication-failure-url="/login.jsp?error=1"
 					login-processing-url="/login"/>
 					
-		<logout logout-success-url="/all-customers.html"/>
+		<logout logout-success-url="/website/all-customers.html"/>
 							
 		<csrf/> 		
 	</http>

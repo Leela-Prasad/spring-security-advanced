@@ -25,7 +25,7 @@ public class SimpleClientTest {
 	{
 		ClassPathXmlApplicationContext container = new ClassPathXmlApplicationContext("application-local.xml");
 
-		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("rac", "secret");
+		UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("bill", "billssecret");
 		SecurityContext securityContext = new SecurityContextImpl();
 		securityContext.setAuthentication(authToken);
 		SecurityContextHolder.setContext(securityContext);
@@ -41,7 +41,7 @@ public class SimpleClientTest {
 				System.out.println(customer);
 			}
 			
-			diaryService.getAllIncompleteActions("rac");
+			//diaryService.getAllIncompleteActions("rac");
 		}
 		finally
 		{

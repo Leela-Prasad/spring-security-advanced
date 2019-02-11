@@ -76,5 +76,7 @@
 	<classpathentry kind="lib" path="lib/spring-webmvc-4.1.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
 	<classpathentry kind="lib" path="lib/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="lib/apache-ds-all-1.5.5-no-slf.jar"/>
+	<classpathentry kind="lib" path="lib/spring-ldap-core-2.0.4.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

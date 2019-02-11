@@ -25,11 +25,29 @@
 	<security:global-method-security pre-post-annotations="enabled" />
 	
 	<!--  For this course, we will use in memory authentication - see module 1 of Spring Security Course for details on JDBC providers -->
-	<security:authentication-manager>
+	<!-- <security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>			
-				<security:user name="rac" password="secret" authorities="ROLE_CRM_USER"/>
+				<security:user name="rac" password="secret" authorities="ROLE_CRM_User"/>
 			</security:user-service>
 		</security:authentication-provider>
+	</security:authentication-manager> -->
+	
+	<security:authentication-manager>
+		<security:ldap-authentication-provider user-search-filter="(uid={0})"
+												user-search-base="ou=Users"
+												group-search-base="ou=Groups"
+												group-search-filter="(uniquemember={0})"
+												server-ref="ldapServer">
+		</security:ldap-authentication-provider>
 	</security:authentication-manager>
+	
+		<!-- <security:ldap-authentication-provider user-search-filter="(uid={0})"
+												user-search-base="ou=Users"
+												group-search-filter="(uniqueMember={0})"
+												group-search-base="ou=Groups"
+												server-ref="ldapServer">
+		</security:ldap-authentication-provider> -->
+		
+	<security:ldap-server id="ldapServer" ldif="classpath:ldap-repository.ldif" root="dc=virtualpairprogrammers,dc=com" />
 </beans>
