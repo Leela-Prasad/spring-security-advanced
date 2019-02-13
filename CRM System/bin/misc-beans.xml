@@ -26,10 +26,10 @@
 	
 	<!--  For this course, we will use in memory authentication - see module 1 of Spring Security Course for details on JDBC providers -->
 	<security:authentication-manager>
-		<security:authentication-provider>
+		<!-- <security:authentication-provider>
 			<security:user-service>			
 				<security:user name="rac" password="secret" authorities="ROLE_CRM_USER"/>
 			</security:user-service>
-		</security:authentication-provider>
+		</security:authentication-provider> -->
 	</security:authentication-manager>
 </beans>

@@ -80,6 +80,7 @@
 		<intercept-url pattern="/login.jsp" access="permitAll()"/>
 		<intercept-url pattern="/css/**" access="permitAll()"/>		
 		<intercept-url pattern="/login" access="permitAll()"/>
+		<intercept-url pattern="/facebook/**" access="permitAll()" />
 		<intercept-url pattern="/**" access="hasRole('ROLE_CRM_USER')"/>
 	
 		<form-login login-page="/login.jsp"

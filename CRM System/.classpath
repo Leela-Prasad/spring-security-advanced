@@ -76,5 +76,12 @@
 	<classpathentry kind="lib" path="lib/spring-webmvc-4.1.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/standard.jar"/>
 	<classpathentry kind="lib" path="lib/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-config-1.1.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-core-1.1.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-facebook-2.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-linkedin-1.0.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-security-1.1.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-twitter-1.1.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-social-web-1.1.4.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
