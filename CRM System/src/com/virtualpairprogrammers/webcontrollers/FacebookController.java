@@ -55,6 +55,7 @@ public class FacebookController {
 		String [] fields = { "id", "email",  "first_name", "last_name" };
 		User userProfile = facebook.fetchObject("me", User.class, fields);
 		System.out.println("Profile :" + userProfile);
+		//nullleela.jagu@gmail.comnull2077125249044258null
 		System.out.println(userProfile.getBirthday() + userProfile.getEmail() + userProfile.getGender() + userProfile.getId() + userProfile.getRelationshipStatus());
 		
 		List<Post> posts = facebook.feedOperations().getFeed();

@@ -81,16 +81,31 @@
 		<intercept-url pattern="/css/**" access="permitAll()"/>		
 		<intercept-url pattern="/login" access="permitAll()"/>
 		<intercept-url pattern="/facebook/**" access="permitAll()" />
+		<!-- When /auth/facebook is triggered via login page it will redirect to 
+			/signup url so we need to open this endpoint to all -->
+		<intercept-url pattern="/signup/**" access="permitAll()" />
 		<intercept-url pattern="/**" access="hasRole('ROLE_CRM_USER')"/>
 	
 		<form-login login-page="/login.jsp"
 					authentication-failure-url="/login.jsp?error=1"
 					login-processing-url="/login"/>
 					
-		<logout logout-success-url="/all-customers.html"/>
-							
-		<csrf/> 		
+		<logout logout-success-url="/website/all-customers.html"/>
+		
+		<csrf/> 
+		
+		<!-- Similar to Oauth if we want to trigger Authentiation we have to provide custom filter
+		     which will trigger authentication -->
+		<custom-filter ref="socialAuthenticationFilter" before="PRE_AUTH_FILTER" />     		
 	</http>
+	
+	<!-- Here beans like usersConnectionRepository,userIdSource will be autowired 
+		SocialAuthenticationServiceLocator will be autowired by facebook:config
+		Here we have manually specify authenticationManager if we autowire this bean 
+		it is not working -->
+	<beans:bean id="socialAuthenticationFilter" class="org.springframework.social.security.SocialAuthenticationFilter" autowire="constructor">
+		<beans:constructor-arg ref="authenticationManager" />
+	</beans:bean>
 	
 	<!--  configuration specifically to handle user approval -->
 	<beans:bean id="approvalStore" class="org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore"/>

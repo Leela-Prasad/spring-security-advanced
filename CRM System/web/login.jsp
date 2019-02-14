@@ -31,5 +31,8 @@
 			<label>CRM Password:</label> <input type="text" name="password" value="secret"/>
 			<input type="submit"/>
 		</form:form>
+		
+		
+		<a href="<c:url value='/auth/facebook'/>">Signin with Facebook</a>
 	</body>
 </html>

@@ -4,6 +4,7 @@
     xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:facebook="http://www.springframework.org/schema/social/facebook"
     
     xsi:schemaLocation="
 	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
@@ -12,7 +13,9 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/security 
-        http://www.springframework.org/schema/security/spring-security.xsd">
+        http://www.springframework.org/schema/security/spring-security.xsd
+        http://www.springframework.org/schema/social/facebook
+        http://www.springframework.org/schema/social/spring-social-facebook.xsd">
 
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -24,12 +27,32 @@
 
 	<security:global-method-security pre-post-annotations="enabled" />
 	
-	<!--  For this course, we will use in memory authentication - see module 1 of Spring Security Course for details on JDBC providers -->
-	<security:authentication-manager>
+	
+	<security:authentication-manager alias="authenticationManager">
 		<!-- <security:authentication-provider>
 			<security:user-service>			
 				<security:user name="rac" password="secret" authorities="ROLE_CRM_USER"/>
 			</security:user-service>
 		</security:authentication-provider> -->
+		
+		<!-- This is to tell spring security to authenticate using social media ID-->
+		<security:authentication-provider ref="socialAuthProvider">
+		</security:authentication-provider>
+		
 	</security:authentication-manager>
+	
+	<!-- This tag is same as FacebookConnectionFactory cf = new FacebookConnectionFactory("795947030790092", "fc8bed8c8009454068197169d91faa2a") -->
+	<facebook:config app-id="795947030790092" app-secret="fc8bed8c8009454068197169d91faa2a" />
+	
+	<!-- This bean will check social id with list of socail ids that are registered into our application -->
+	<bean id="socialAuthProvider" class="org.springframework.social.security.SocialAuthenticationProvider">
+		<constructor-arg ref="usersConnectionRepository" />
+		<constructor-arg ref="socialUserDetailsService" />
+	</bean>
+	
+	<!-- connectionFactoryLocator locator will be autowired by facebook:config tag -->
+	<bean id="usersConnectionRepository" class="org.springframework.social.connect.mem.InMemoryUsersConnectionRepository" autowire="constructor" />
+	<bean id="socialUserDetailsService" class="com.virtualpairprogrammers.services.security.InMemorySocialUserDetailsService" />	
+	<bean id="userIdSource" class="org.springframework.social.security.AuthenticationNameUserIdSource" />
+	
 </beans>
