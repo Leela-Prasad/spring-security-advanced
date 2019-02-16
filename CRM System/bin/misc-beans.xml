@@ -5,6 +5,9 @@
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:security="http://www.springframework.org/schema/security"
     xmlns:facebook="http://www.springframework.org/schema/social/facebook"
+    xmlns:linkedin="http://www.springframework.org/schema/social/linkedin"
+    xmlns:twitter="http://www.springframework.org/schema/social/twitter"	
+    
     
     xsi:schemaLocation="
 	    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
@@ -15,7 +18,11 @@
         http://www.springframework.org/schema/security 
         http://www.springframework.org/schema/security/spring-security.xsd
         http://www.springframework.org/schema/social/facebook
-        http://www.springframework.org/schema/social/spring-social-facebook.xsd">
+        http://www.springframework.org/schema/social/spring-social-facebook.xsd
+        http://www.springframework.org/schema/social/twitter
+        http://www.springframework.org/schema/social/spring-social-twitter.xsd
+        http://www.springframework.org/schema/social/linkedin
+        http://www.springframework.org/schema/social/spring-social-linkedin.xsd">
 
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -29,11 +36,11 @@
 	
 	
 	<security:authentication-manager alias="authenticationManager">
-		<!-- <security:authentication-provider>
+		<security:authentication-provider>
 			<security:user-service>			
 				<security:user name="rac" password="secret" authorities="ROLE_CRM_USER"/>
 			</security:user-service>
-		</security:authentication-provider> -->
+		</security:authentication-provider>
 		
 		<!-- This is to tell spring security to authenticate using social media ID-->
 		<security:authentication-provider ref="socialAuthProvider">
@@ -43,6 +50,8 @@
 	
 	<!-- This tag is same as FacebookConnectionFactory cf = new FacebookConnectionFactory("795947030790092", "fc8bed8c8009454068197169d91faa2a") -->
 	<facebook:config app-id="795947030790092" app-secret="fc8bed8c8009454068197169d91faa2a" />
+	<twitter:config app-id="1XjiFlVsLIXS91va2FyeiMGyD" app-secret="zoqLhap5jmlReY405TyBzn1MYY5UDaNTJseBojbgDfxxC9qlr9" />
+	<linkedin:config app-id="795947030790092" app-secret="fc8bed8c8009454068197169d91faa2a" />
 	
 	<!-- This bean will check social id with list of socail ids that are registered into our application -->
 	<bean id="socialAuthProvider" class="org.springframework.social.security.SocialAuthenticationProvider">

@@ -34,5 +34,7 @@
 		
 		
 		<a href="<c:url value='/auth/facebook'/>">Signin with Facebook</a>
+		<a href="<c:url value='/auth/twitter'/>">Signin with Twitter</a>
+		<a href="<c:url value='/auth/linkedin'/>">Signin with Linkedin</a>
 	</body>
 </html>

@@ -9,6 +9,7 @@ import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +36,15 @@ public class SocialAuthController {
 		signInUtils = new ProviderSignInUtils(connectionFactoryLocator, connectionRepository);
 	}
 	
-	@RequestMapping("/signup")
+	@RequestMapping(value="/signup", method=RequestMethod.GET)
+	public ModelAndView confirmUserIsHappyToLinkAccount(WebRequest request) {
+		Connection<?> connection = signInUtils.getConnectionFromSession(request);
+		
+		String provider = connection.getKey().getProviderId();
+		return new ModelAndView("/link-with-provider.jsp","provider", provider);
+	}
+	
+	@RequestMapping(value="/signup", method=RequestMethod.POST)
 	public ModelAndView registerUserFromFacebook(WebRequest request) {
 		/* we can get id from SocialAuthenticationServiceLocator which is wired by 
 		 * facebook:config here we can do below operation userProfile.getId()
