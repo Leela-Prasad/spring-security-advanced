@@ -75,24 +75,65 @@
 	</http>
 	
 	<!--  this is the vanilla website settings...-->
-	<http pattern="/**">	
+	<!-- Plugin CAS Authentication via Entrypoint -->
+	<http pattern="/**" entry-point-ref="casEntrypoint">	
 		<intercept-url pattern="/oauth/**" access="hasRole('ROLE_CRM_USER')"/>
 		<intercept-url pattern="/login.jsp" access="permitAll()"/>
 		<intercept-url pattern="/css/**" access="permitAll()"/>		
 		<intercept-url pattern="/login" access="permitAll()"/>
 		<intercept-url pattern="/**" access="hasRole('ROLE_CRM_USER')"/>
-	
-		<form-login login-page="/login.jsp"
-					authentication-failure-url="/login.jsp?error=1"
-					login-processing-url="/login"/>
-					
-		<logout logout-success-url="/all-customers.html"/>
-							
+		
+		<!-- This filter is needed to validate the CAS Generated Tickets -->
+		<custom-filter ref="casAuthenticationFilter" before="CAS_FILTER" />
 		<csrf/> 		
 	</http>
+	
+	<beans:bean id="casEntrypoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
+		<!-- This url is for CAS authentication -->
+		<beans:property name="loginUrl" value="http://localhost:8080/cas/login" />
+		<!-- This is the redirect url for cas after authentication -->
+		<beans:property name="serviceProperties" ref="serviceProperties" />
+	</beans:bean>
+	
+	<beans:bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
+		<beans:property name="service" value="http://localhost:8080/crm/login/cas" />
+	</beans:bean>
+	
+	<beans:bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+	</beans:bean>
 	
 	<!--  configuration specifically to handle user approval -->
 	<beans:bean id="approvalStore" class="org.springframework.security.oauth2.provider.approval.InMemoryApprovalStore"/>
 	<beans:bean id="userApprovalHandler" class="org.springframework.security.oauth2.provider.approval.ApprovalStoreUserApprovalHandler" autowire="byType"/>
 	
+	<!--  For this course, we will use in memory authentication - see module 1 of Spring Security Course for details on JDBC providers -->
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="casAuthenticationProvider">
+		</authentication-provider>
+	</authentication-manager>
+	
+	<beans:bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+		<beans:property name="ticketValidator" ref="ticketValidator"/>
+		<beans:property name="serviceProperties" ref="serviceProperties" />
+		<!-- unique key for application -->
+		<beans:property name="key" value="crmkey"/>
+		<!-- This is required so that spring framework knows what roles
+			 that CAS authenticated user has so that it can give access(authorize)
+			 resource-->
+		<beans:property name="authenticationUserDetailsService" ref="userDetailsWrapper"/>
+	</beans:bean>
+	
+	<beans:bean id="userDetailsWrapper" class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+		<beans:property name="userDetailsService" ref="userDetails" />
+	</beans:bean>
+	
+	<user-service id="userDetails">			
+		<user name="casuser" password="password not needed" authorities="ROLE_CRM_USER"/>
+	</user-service>
+			
+	<beans:bean id="ticketValidator" class="org.jasig.cas.client.validation.Cas30ServiceTicketValidator">
+		<!-- This is url where CAS is running -->
+		<beans:constructor-arg value="http://localhost:8080/cas" />
+	</beans:bean>
 </beans:beans>	
