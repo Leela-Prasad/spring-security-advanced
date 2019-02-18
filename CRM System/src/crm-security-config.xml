@@ -128,9 +128,15 @@
 		<beans:property name="userDetailsService" ref="userDetails" />
 	</beans:bean>
 	
-	<user-service id="userDetails">			
-		<user name="casuser" password="password not needed" authorities="ROLE_CRM_USER"/>
-	</user-service>
+	<ldap-user-service id="userDetails"
+						server-ref="ldapServer"
+						user-search-base="ou=Users"
+						user-search-filter="(uid={0})"
+						group-search-base="ou=Groups"
+						group-search-filter="(uniquemember={0})"
+	/>
+	
+	<ldap-server id="ldapServer" url="ldap://localhost:33389/dc=virtualpairprogrammers,dc=com"/>
 			
 	<beans:bean id="ticketValidator" class="org.jasig.cas.client.validation.Cas30ServiceTicketValidator">
 		<!-- This is url where CAS is running -->
